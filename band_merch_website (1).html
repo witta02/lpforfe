@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00ADEF">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.webmanifest">
+    <script src="assets/app.js" defer></script>
+    <title>Mock & Troll - Band Merch Store</title>
+    <style>
+        :root {
+            --accent: #00ADEF; /* Meteora 20th blue */
+            --accent-dark: #007BA8;
+            --accent-shadow-30: rgba(0, 173, 239, 0.3);
+            --accent-shadow-40: rgba(0, 173, 239, 0.4);
+            --accent-shadow-50: rgba(0, 173, 239, 0.5);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 20px var(--accent-shadow-30);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            position: relative;
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            font-family: 'New Rocker', 'Impact', 'Arial Black', sans-serif;
+        }
+
+        .logo-tagline {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            margin-top: -5px;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            position: relative;
+            font-family: inherit;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(196, 30, 58, 0.03) 50px,
+                    rgba(196, 30, 58, 0.03) 51px
+                );
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent);
+            font-weight: 900;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #999;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .filter-section {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            background: #1a1a1a;
+            border: 2px solid var(--accent);
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .filter-btn:hover::before,
+        .filter-btn.active::before {
+            left: 0;
+        }
+
+        .filter-btn.active {
+            color: #ffffff;
+            box-shadow: 0 0 20px var(--accent-shadow-50);
+        }
+
+        .search-sort {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box, .sort-select {
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box {
+            width: 300px;
+        }
+
+        .search-box:focus, .sort-select:focus {
+            border-color: var(--accent);
+        }
+
+        .products-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .products-grid.fade-out {
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .products-grid.fade-in {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .product-card {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            border-color: #c41e3a;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px var(--accent-shadow-30);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+            overflow: hidden;
+            background: #0a0a0a;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 173, 239, 0.1) 0%, transparent 100%);
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .band-name {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .product-price {
+            font-size: 28px;
+            color: var(--accent);
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buy-btn, .quick-view-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .buy-btn {
+            background: var(--accent);
+            color: white;
+        }
+
+        .buy-btn:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 5px 20px var(--accent-shadow-50);
+        }
+
+        .quick-view-btn {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .quick-view-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -500px;
+            top: 0;
+            width: 450px;
+            height: 100vh;
+            background: #1a1a1a;
+            border-left: 3px solid var(--accent);
+            transition: right 0.3s;
+            z-index: 2000;
+            overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 30px;
+            border-bottom: 2px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .close-cart {
+            font-size: 32px;
+            cursor: pointer;
+            color: var(--accent);
+            transition: transform 0.3s;
+        }
+
+        .close-cart:hover {
+            transform: rotate(90deg);
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        .remove-item {
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .remove-item:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-footer {
+            padding: 30px;
+            border-top: 2px solid #333;
+            position: sticky;
+            bottom: 0;
+            background: #1a1a1a;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 5px 20px var(--accent-shadow-50);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Backdrop for cart */
+        .backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(2px);
+            display: none;
+            z-index: 1500;
+        }
+        .backdrop.show { display: block; }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            border: 3px solid var(--accent);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 32px;
+            color: var(--accent);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-body h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .info-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 30px 40px;
+            border-top: 2px solid #333;
+        }
+
+        .info-section h2 {
+            font-size: 24px;
+            margin: 30px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        .info-text {
+            color: #bbb;
+            line-height: 1.8;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            max-width: 700px;
+        }
+
+        .contact-input, .contact-textarea {
+            padding: 12px 14px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            color: #fff;
+            outline: none;
+        }
+
+        .contact-input:focus, .contact-textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .contact-submit {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .nav-menu {
+                gap: 15px;
+                font-size: 11px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .cart-sidebar {
+                width: 100%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <div class="logo">MOCK & TROLL</div>
+                <div class="logo-tagline">BY VV1NZY</div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#shop">SHOP</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+                <li>
+                    <button id="langToggle" style="background:transparent;border:2px solid var(--accent);color:#fff;padding:6px 10px;cursor:pointer;font-weight:800;letter-spacing:1px;">EN/TH</button>
+                </li>
+                <li>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>BAND MERCH / ขายสินค้าวงดนตรี</h1>
+        <p id="heroSub">Made by VV1NZY for Classwork</p>
+    </section>
+
+    <div class="filter-section" id="shop">
+        <div class="search-sort">
+            <input type="text" class="search-box" placeholder="SEARCH PRODUCTS..." id="searchBox">
+            <select class="sort-select" id="sortSelect">
+                <option value="default">SORT BY</option>
+                <option value="price-low">PRICE: LOW TO HIGH</option>
+                <option value="price-high">PRICE: HIGH TO LOW</option>
+                <option value="name">NAME: A-Z</option>
+            </select>
+        </div>
+        <div class="filter-bar">
+            <button class="filter-btn active" data-category="all">ALL</button>
+            <button class="filter-btn" data-category="tshirt">🎽 T-SHIRTS</button>
+            <button class="filter-btn" data-category="accessories">🎁 ACCESSORIES</button>
+            <button class="filter-btn" data-category="rock">ROCK</button>
+            <button class="filter-btn" data-category="metal">METAL</button>
+            <button class="filter-btn" data-category="punk">PUNK</button>
+            <button class="filter-btn" data-category="alt">ALT</button>
+            <button class="filter-btn" data-category="pop">POP</button>
+        </div>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+
+    <section id="about" class="info-section">
+        <h2>About</h2>
+        <p class="info-text">Made for classwork by VV1NZY</p>
+    </section>
+
+    <section id="contact" class="info-section">
+        <h2>Contact</h2>
+        <div class="contact-grid">
+            <a id="ct_ig" class="contact-submit" href="https://instagram.com/12.barblues" target="_blank" rel="noopener">Instagram</a>
+            <a id="ct_fb" class="contact-submit" href="https://facebook.com/wittawinkp12" target="_blank" rel="noopener">Facebook</a>
+        </div>
+    </section>
+
+    <div class="cart-sidebar" id="cartSidebar" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+        <div class="cart-header">
+            <h2 id="cartTitle">YOUR CART</h2>
+            <span class="close-cart" onclick="toggleCart()">×</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <p>YOUR CART IS EMPTY</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div style="font-size:12px;color:#bbb;margin-bottom:10px;">Free shipping over ฿1,500</div>
+            <div class="cart-total">
+                <span>TOTAL:</span>
+                <span id="cartTotal">฿0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- Backdrop for cart -->
+    <div class="backdrop" id="cartBackdrop" onclick="toggleCart()"></div>
+
+    <!-- Quick View Modal -->
+    <div class="modal" id="quickViewModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content" tabindex="-1">
+            <span class="modal-close" onclick="closeModal()">×</span>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    
+</body>
+</html>
