@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00ADEF">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script src="auth.js" defer></script>
+    <title>Product Detail - Mock & Troll</title>
+    <style>
+        :root {
+            --accent: #00ADEF;
+            --accent-dark: #007BA8;
+            --accent-shadow-30: rgba(0, 173, 239, 0.3);
+            --accent-shadow-50: rgba(0, 173, 239, 0.5);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 20px var(--accent-shadow-30);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            font-family: 'New Rocker', 'Impact', 'Arial Black', sans-serif;
+        }
+
+        .logo-tagline {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            margin-top: -5px;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 30px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .product-image-large {
+            width: 100%;
+            height: 600px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info-detail {
+            padding: 20px 0;
+        }
+
+        .band-name-detail {
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .product-title-detail {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .product-price-detail {
+            font-size: 48px;
+            color: var(--accent);
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .product-description {
+            color: #bbb;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .product-actions-detail {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .buy-btn-detail {
+            flex: 1;
+            padding: 18px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .buy-btn-detail:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 5px 20px var(--accent-shadow-50);
+        }
+
+        .product-specs {
+            border-top: 2px solid #333;
+            padding-top: 30px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .spec-label {
+            color: #999;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+
+        .spec-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-image-large {
+                height: 400px;
+            }
+
+            .product-title-detail {
+                font-size: 32px;
+            }
+
+            .product-price-detail {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <a href="index.html" style="text-decoration: none;">
+                    <div class="logo">MOCK & TROLL</div>
+                    <div class="logo-tagline">BY VV1NZY</div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home">HOME</a></li>
+                <li><a href="index.html#shop">SHOP</a></li>
+                <li><a href="index.html#about">ABOUT</a></li>
+                <li><a href="index.html#contact">CONTACT</a></li>
+                <!-- Auth links will be dynamically added by auth.js -->
+            </ul>
+        </nav>
+    </header>
+
+    <div class="product-detail-container">
+        <a href="index.html" class="back-link">← Back to Products</a>
+        
+        <div id="productDetail" class="product-detail-grid">
+            <div style="text-align: center; color: #999; padding: 40px;">Loading product...</div>
+        </div>
+    </div>
+
+    <script>
+        // Product data (same as in app.js)
+        const products = [
+            { id: 101, name: 'Hybrid Theory Tee', band: 'Linkin Park', price: 890, category: 'tshirt metal', icon: '🦂', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', imageUrl: 'https://otheruk.com/cdn/shop/files/V3A79942_5abdabf9-0024-4db2-b9ec-1b70dc95dfa0.jpg?v=1723556483&width=2000' },
+            { id: 102, name: 'Meteora Hoodie', band: 'Linkin Park', price: 1690, category: 'tshirt metal', icon: '🧥', gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTla5aQa4XSx5YPz4-escKCCpDkvebZ97V6HA&s' },
+            { id: 201, name: 'Master of Puppets Tee', band: 'Metallica', price: 920, category: 'tshirt metal', icon: '⚡', gradient: 'linear-gradient(135deg, #232526 0%, #414345 100%)', imageUrl: 'https://cdn.media.amplience.net/i/metallica/MOPWOTRKT22_Master-Of-Puppets-T-Shirt_01?$large$' },
+            { id: 202, name: 'Metallica Logo Cap', band: 'Metallica', price: 650, category: 'accessories metal', icon: '🧢', gradient: 'linear-gradient(135deg, #485563 0%, #29323c 100%)', imageUrl: 'https://collectacouple.com/cdn/shop/files/Copy-of_Hi_20240706_034751_0000.png?v=1720632222' },
+            { id: 301, name: 'Smiley Tee', band: 'Nirvana', price: 850, category: 'tshirt alt', icon: '🙂', gradient: 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)', imageUrl: 'https://shop.nirvana.com/cdn/shop/files/Nirvana_Smiley_Toddler_Tee_1_4a58ed0c-acc1-473f-b705-21ae80704d7e_600x.png?v=1739233528' },
+            { id: 302, name: 'Nevermind Tote', band: 'Nirvana', price: 480, category: 'accessories alt', icon: '👜', gradient: 'linear-gradient(135deg, #83a4d4 0%, #b6fbff 100%)', imageUrl: 'https://i.ebayimg.com/images/g/NcIAAOSw1qNjXnMM/s-l400.png' },
+            { id: 401, name: 'High Voltage Tee', band: 'AC/DC', price: 890, category: 'tshirt rock', icon: '⚡', gradient: 'linear-gradient(135deg, #ffd89b 0%, #19547b 100%)', imageUrl: 'https://jsrdirect.com/cdn/shop/files/ACD185_f3d8798f-368c-4373-955e-7c60c7cac4fa.jpg?v=1751891725' },
+            { id: 402, name: 'AC/DC Keychain', band: 'AC/DC', price: 280, category: 'accessories rock', icon: '🔑', gradient: 'linear-gradient(135deg, #8e9eab 0%, #eef2f3 100%)', imageUrl: 'https://i.ebayimg.com/images/g/zFMAAOSwqa9kPtZG/s-l400.jpg' },
+            { id: 501, name: 'Dark Side Tee', band: 'Pink Floyd', price: 980, category: 'tshirt rock', icon: '🌈', gradient: 'linear-gradient(135deg, #0f2027 0%, #2c5364 100%)', imageUrl: 'https://shop.pinkfloyd.com/cdn/shop/files/X3CTPF1267_4a53f66f-7a3c-4d74-b2ed-09fdbf919f25.png?v=1757624306' },
+            { id: 502, name: 'Prism Poster', band: 'Pink Floyd', price: 550, category: 'accessories rock', icon: '🖼️', gradient: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)', imageUrl: 'https://cdn.europosters.eu/image/750/36372.jpg' },
+            { id: 601, name: 'American Idiot Tee', band: 'Green Day', price: 840, category: 'tshirt punk', icon: '🧨', gradient: 'linear-gradient(135deg, #16a085 0%, #000428 100%)', imageUrl: 'https://m.media-amazon.com/images/I/61JnHXvMYxL._AC_SL1500_.jpg' },
+            { id: 602, name: 'Green Day Wristband', band: 'Green Day', price: 240, category: 'accessories punk', icon: '🎗️', gradient: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)', imageUrl: 'https://cdn.media.amplience.net/s/hottopic/10241883_hi?$productMainDesktop$&fmt=auto' },
+            { id: 701, name: 'Enema Tee', band: 'Blink-182', price: 790, category: 'tshirt punk', icon: '💫', gradient: 'linear-gradient(135deg, #fc00ff 0%, #00dbde 100%)', imageUrl: 'https://i.ebayimg.com/images/g/iaoAAOSwHCBklfRR/s-l1200.jpg' },
+            { id: 702, name: 'Blink-182 Mug', band: 'Blink-182', price: 420, category: 'accessories punk', icon: '☕', gradient: 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREgJOluNpL6A4fP2ulJEx5V1PVB_sd7Pa_sQ&s' },
+            { id: 801, name: 'Iowa Tee', band: 'Slipknot', price: 930, category: 'tshirt metal', icon: '🩸', gradient: 'linear-gradient(135deg, #200122 0%, #6f0000 100%)', imageUrl: 'https://m.media-amazon.com/images/I/B1pppR4gVKL._CLa%7C2140%2C2000%7C91m5%2B8wLxjL.png%7C0%2C0%2C2140%2C2000%2B0%2C0%2C2140%2C2000_AC_UY1000_.png' },
+            { id: 802, name: 'Slipknot Patch Set', band: 'Slipknot', price: 320, category: 'accessories metal', icon: '🩹', gradient: 'linear-gradient(135deg, #6441a5 0%, #2a0845 100%)', imageUrl: 'https://slipknotmerch.com/cdn/shop/files/Here-Comes-The-Pain-Patch-Set_105f8761-9ab9-4dc3-89e9-bad18d65c122.png?v=1722619124' },
+            { id: 901, name: 'Issues Tee', band: 'Korn', price: 910, category: 'tshirt metal', icon: '🧸', gradient: 'linear-gradient(135deg, #373b44 0%, #4286f4 100%)', imageUrl: 'https://i.ebayimg.com/images/g/KWoAAOSwVCNl8cMC/s-l1200.jpg' },
+            { id: 902, name: 'Korn Beanie', band: 'Korn', price: 560, category: 'accessories metal', icon: '🧢', gradient: 'linear-gradient(135deg, #1f1c2c 0%, #928dab 100%)', imageUrl: 'https://www.footlocker.ph/media/catalog/product/cache/f57d6f7ebc711fc328170f0ddc174b08/0/8/0803-ADIJG1442005OSW-2.jpg' },
+            { id: 1001, name: 'Riot! Tee', band: 'Paramore', price: 820, category: 'tshirt alt', icon: '📝', gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', imageUrl: 'https://paom.com/cdn/shop/products/34428_231252.jpg?v=1578612138' },
+            { id: 1002, name: 'Paramore Pin', band: 'Paramore', price: 230, category: 'accessories alt', icon: '📌', gradient: 'linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%)', imageUrl: 'https://i.ebayimg.com/images/g/RucAAOSwxspef9Cw/s-l1200.jpg' },
+            { id: 1101, name: 'Black Parade Tee', band: 'My Chemical Romance', price: 950, category: 'tshirt alt', icon: '🥁', gradient: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', imageUrl: 'https://area-23.shop/wp-content/uploads/2023/10/MCR-BLA-SS-12.png' },
+            { id: 1102, name: 'MCR Patch', band: 'My Chemical Romance', price: 260, category: 'accessories alt', icon: '🎖️', gradient: 'linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%)', imageUrl: 'https://inwfile.com/s-ga/wv521r.jpg' },
+            { id: 1201, name: '1989 Tee', band: 'Taylor Swift', price: 890, category: 'tshirt pop', icon: '✨', gradient: 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvbO5fUlL_h0FfTImMKGku6oXhOr7jf7kVNA&s' },
+            { id: 1202, name: 'Chromatica Keychain', band: 'Lady Gaga', price: 300, category: 'accessories pop', icon: '🔑', gradient: 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)', imageUrl: 'https://i.etsystatic.com/29365931/r/il/fab49f/5125702505/il_340x270.5125702505_dm4z.jpg' },
+            { id: 1301, name: 'Zeppelin Stairway Tee', band: 'Led Zeppelin', price: 940, category: 'tshirt rock', icon: '🔥', gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', imageUrl: 'https://rockabilia.com/cdn/shop/products/52807F_1024x1024.jpg?v=1668725112' },
+            { id: 1302, name: 'Beatles Abbey Road Pin', band: 'The Beatles', price: 250, category: 'accessories rock', icon: '📌', gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', imageUrl: 'https://i.ebayimg.com/images/g/h2oAAOSwdnZm1sYu/s-l400.png' }
+        ];
+
+        // Get product ID from URL
+        function getProductId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return parseInt(urlParams.get('id')) || 0;
+        }
+
+        // Find product
+        function findProduct(productId) {
+            return products.find(p => p.id === productId);
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            try {
+                if (!window.AuthSim || !window.AuthSim.getAuth()) {
+                    alert('Please login to add items to cart.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+            } catch (e) { }
+            const product = findProduct(productId);
+            if (!product) return;
+
+            let cart = [];
+            try {
+                const cartData = localStorage.getItem('cart');
+                if (cartData) {
+                    cart = JSON.parse(cartData);
+                }
+            } catch (e) {
+                cart = [];
+            }
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            try {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Product added to cart!');
+                window.location.href = 'index.html';
+            } catch (e) {
+                alert('Failed to add to cart. Please try again.');
+            }
+        }
+
+        // Render product detail
+        function renderProductDetail() {
+            const productId = getProductId();
+            const product = findProduct(productId);
+            const container = document.getElementById('productDetail');
+
+            if (!product) {
+                container.innerHTML = '<div style="text-align: center; color: #999; padding: 40px;">Product not found. <a href="index.html" style="color: #00ADEF;">Go back</a></div>';
+                return;
+            }
+
+            // Update page title
+            document.title = `${product.name} - ${product.band} - Mock & Troll`;
+
+            const categoryLabel = product.category.split(' ')[0].charAt(0).toUpperCase() + product.category.split(' ')[0].slice(1);
+
+            container.innerHTML = `
+                <div class="product-image-large" style="background: ${product.gradient};">
+                    ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size: 120px;\\'>${product.icon}</span>'">` : `<span style="font-size: 120px;">${product.icon}</span>`}
+                </div>
+                
+                <div class="product-info-detail">
+                    <div class="band-name-detail">${product.band}</div>
+                    <h1 class="product-title-detail">${product.name}</h1>
+                    <div class="product-price-detail">฿${product.price.toLocaleString()}</div>
+                    
+                    <p class="product-description">
+                        Official merchandise from ${product.band}. 
+                        High-quality ${product.name} featuring authentic band designs. 
+                        Perfect for fans and collectors.
+                    </p>
+                    
+                    <div class="product-actions-detail">
+                        <button class="buy-btn-detail" onclick="addToCart(${product.id})">ADD TO CART</button>
+                    </div>
+                    
+                    <div class="product-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Band</span>
+                            <span class="spec-value">${product.band}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Category</span>
+                            <span class="spec-value">${categoryLabel}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Price</span>
+                            <span class="spec-value">฿${product.price.toLocaleString()}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Shipping</span>
+                            <span class="spec-value">Free over ฿1,500</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProductDetail();
+        });
+    </script>
+</body>
+</html>
+

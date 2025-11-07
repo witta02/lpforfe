@@ -1,7 +1,7 @@
 (function(){
   const products = [
-    { id: 101, name: 'Hybrid Theory Tee', band: 'Linkin Park', price: 890, category: 'tshirt rock', icon: '🦂', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', imageUrl: 'https://otheruk.com/cdn/shop/files/V3A79942_5abdabf9-0024-4db2-b9ec-1b70dc95dfa0.jpg?v=1723556483&width=2000' },
-    { id: 102, name: 'Meteora Hoodie', band: 'Linkin Park', price: 1690, category: 'tshirt rock', icon: '🧥', gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTla5aQa4XSx5YPz4-escKCCpDkvebZ97V6HA&s' },
+    { id: 101, name: 'Hybrid Theory Tee', band: 'Linkin Park', price: 890, category: 'tshirt metal', icon: '🦂', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', imageUrl: 'https://otheruk.com/cdn/shop/files/V3A79942_5abdabf9-0024-4db2-b9ec-1b70dc95dfa0.jpg?v=1723556483&width=2000' },
+    { id: 102, name: 'Meteora Hoodie', band: 'Linkin Park', price: 1690, category: 'tshirt metal', icon: '🧥', gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTla5aQa4XSx5YPz4-escKCCpDkvebZ97V6HA&s' },
     { id: 201, name: 'Master of Puppets Tee', band: 'Metallica', price: 920, category: 'tshirt metal', icon: '⚡', gradient: 'linear-gradient(135deg, #232526 0%, #414345 100%)', imageUrl: 'https://cdn.media.amplience.net/i/metallica/MOPWOTRKT22_Master-Of-Puppets-T-Shirt_01?$large$' },
     { id: 202, name: 'Metallica Logo Cap', band: 'Metallica', price: 650, category: 'accessories metal', icon: '🧢', gradient: 'linear-gradient(135deg, #485563 0%, #29323c 100%)', imageUrl: 'https://collectacouple.com/cdn/shop/files/Copy-of_Hi_20240706_034751_0000.png?v=1720632222' },
     { id: 301, name: 'Smiley Tee', band: 'Nirvana', price: 850, category: 'tshirt alt', icon: '🙂', gradient: 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)', imageUrl: 'https://shop.nirvana.com/cdn/shop/files/Nirvana_Smiley_Toddler_Tee_1_4a58ed0c-acc1-473f-b705-21ae80704d7e_600x.png?v=1739233528' },
@@ -35,7 +35,7 @@
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
     grid.innerHTML = productList.map(product => `
-      <div class="product-card" data-category="${product.category}">
+      <div class="product-card" data-category="${product.category}" onclick="goToDetail(${product.id})">
         <div class="product-image" style="background: ${product.gradient};">
           ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.onerror=null;this.remove();">` : `<span style="font-size: 80px;">${product.icon}</span>`}
         </div>
@@ -44,8 +44,8 @@
           <div class="product-title">${product.name}</div>
           <div class="product-price">฿${product.price}</div>
           <div class="product-actions">
-            <button class="buy-btn" onclick="addToCart(${product.id})">ADD TO CART</button>
-            <button class="quick-view-btn" onclick="quickView(${product.id})">VIEW</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart(${product.id})">ADD TO CART</button>
+            <button class="quick-view-btn" onclick="event.stopPropagation(); quickView(${product.id})">VIEW</button>
           </div>
         </div>
       </div>
@@ -68,6 +68,13 @@
   }
 
   function addToCart(productId) {
+    try {
+      if (!window.AuthSim || !window.AuthSim.getAuth()) {
+        alert('Please login to add items to cart.');
+        window.location.href = 'login.html';
+        return;
+      }
+    } catch(e) { /* fallback no-op */ }
     const product = products.find(p => p.id === productId);
     const existingItem = cart.find(item => item.id === productId);
     if (existingItem) { existingItem.quantity++; } else { cart.push({ ...product, quantity: 1 }); }
@@ -129,24 +136,11 @@
   function toggleCart() { const sidebar = document.getElementById('cartSidebar'); if (!sidebar) return; sidebar.classList.toggle('open'); }
 
   function quickView(productId) {
-    const product = products.find(p => p.id === productId);
-    const modal = document.getElementById('quickViewModal');
-    const body = document.getElementById('modalBody');
-    if (!modal || !body) return;
-    body.innerHTML = `
-      <h3>${product.name}</h3>
-      <div style="display:flex; gap:20px; align-items:center;">
-        <div class="product-image" style="width:220px; height:220px; background:${product.gradient};">
-          ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.onerror=null;this.remove();">` : `<span style="font-size:80px;">${product.icon}</span>`}
-        </div>
-        <div>
-          <div class="band-name">${product.band}</div>
-          <div class="product-price" style="margin:10px 0;">฿${product.price}</div>
-          <button class="buy-btn" onclick="addToCart(${product.id});">Add to Cart</button>
-        </div>
-      </div>
-    `;
-    modal.classList.add('open');
+    window.location.href = `product_detail.html?id=${productId}`;
+  }
+
+  function goToDetail(productId){
+    window.location.href = `product_detail.html?id=${productId}`;
   }
 
   function closeModal() { const modal = document.getElementById('quickViewModal'); if (modal) modal.classList.remove('open'); }
@@ -197,7 +191,7 @@
     setTimeout(()=>{ const btn = document.getElementById('co_submit'); if (btn) btn.onclick = () => { showNotification('Order placed! Thank you.'); cart = []; updateCart(); closeModal(); }; },0);
   }
 
-  Object.assign(window, { products, cart, currentProducts, renderProducts, addToCart, updateCart, changeQuantity, removeFromCart, toggleCart, quickView, closeModal, showNotification, loadCart, applyFilters, checkout });
+  Object.assign(window, { products, cart, currentProducts, renderProducts, addToCart, updateCart, changeQuantity, removeFromCart, toggleCart, quickView, closeModal, showNotification, loadCart, applyFilters, checkout, goToDetail });
 
   document.addEventListener('DOMContentLoaded', () => {
     loadCart(); renderProducts(products); updateCart();
